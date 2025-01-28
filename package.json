@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "build": "tailwindcss -i ./styles.css -o ./dist/output.css",
+    "watch": "tailwindcss -i ./styles.css -o ./dist/output.css --watch"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

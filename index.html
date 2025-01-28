@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ark Advantage</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 1px solid #333;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.2);
+        }
+
+        .btn:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(220, 38, 38, 0.3);
+        }
+
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, #dc2626);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: #9ca3af;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .game-versions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .game-card {
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid #333;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .price-box {
+            background: rgba(220, 38, 38, 0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 2rem 0;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+
+        .price {
+            font-size: 3.5rem;
+            color: #dc2626;
+            font-weight: 800;
+        }
+
+        .price-text {
+            color: #9ca3af;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .video-container {
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 2rem 0;
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .features-mini {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .feature-mini {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: rgba(220, 38, 38, 0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+
+        .feature-mini svg {
+            width: 20px;
+            height: 20px;
+            color: #dc2626;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid #333;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .close-modal:hover {
+            color: #fff;
+        }
+
+        .crypto-option {
+            background: #0d0d0d;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .crypto-option:hover {
+            border-color: #dc2626;
+            background: #141414;
+        }
+
+        .crypto-address {
+            font-family: monospace;
+            background: #000;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            background: #333;
+            border: none;
+            color: #fff;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .copy-btn:hover {
+            background: #444;
+        }
+
+        /* Payment step styles */
+        .payment-step {
+            display: none;
+        }
+
+        .payment-step.active {
+            display: block;
+        }
+
+        .crypto-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .select-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .select-btn:hover {
+            background: #b91c1c;
+        }
+
+        .loading-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .loading-bar {
+            background: #333;
+            height: 6px;
+            border-radius: 3px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            width: 30%;
+            background: #dc2626;
+            border-radius: 3px;
+            animation: loading 2s infinite;
+            transform-origin: left;
+        }
+
+        .loading-text {
+            color: #9ca3af;
+            margin-top: 1rem;
+        }
+
+        .back-btn {
+            width: 100%;
+            margin-top: 2rem;
+            background: #333;
+        }
+
+        .back-btn:hover {
+            background: #444;
+        }
+
+        .selected-crypto {
+            background: #1a1a1a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 1px solid #dc2626;
+        }
+
+        @keyframes loading {
+            0% {
+                transform: translateX(-100%);
+            }
+            50% {
+                transform: translateX(200%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Media Queries */
+        @media (max-width: 1024px) {
+            .game-versions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .features-mini {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                margin: 20px;
+                padding: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container nav-content">
+            <img src="ArkAdvantageLogoTransparent.png" alt="Ark Advantage" class="logo">
+            <button class="btn">Purchase Now</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Dominate Ark Survival</h1>
+            <p>Premium Ark Survival Ascended and Evolved dupe software, revolutionizing the game.</p>
+        </section>
+
+        <div class="game-versions">
+            <div class="game-card">
+                <h2 class="game-title">Ark: Survival Evolved</h2>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/q_54zeabZUQ" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="price-box">
+                    <div class="price">$120</div>
+                    <p class="price-text">One-time purchase, lifetime access</p>
+                </div>
+                <div class="features-mini">
+                    <div class="feature-mini">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        Undetected Software
+                    </div>
+                    <div class="feature-mini">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
+                        Updated Constantly
+                    </div>
+                    <div class="feature-mini">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6m0 5V4m0 5v3m12-3h1.5a2.5 2.5 0 0 0 0-5H18m0 5V4m0 5v3"/>
+                            <path d="M6 4h12v6a6 6 0 0 1-6 6v0a6 6 0 0 1-6-6V4"/>
+                            <path d="M9 20h6m-3-3v3"/>
+                        </svg>
+                        Active Support
+                    </div>
+                </div>
+                <button class="btn" style="width: 100%; margin-top: 1.5rem;">Get ASE Access</button>
+            </div>
+
+            <div class="game-card">
+                <h2 class="game-title">Ark: Survival Ascended</h2>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/XWq31Sg9FBs" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="price-box">
+                    <div class="price">$230</div>
+                    <p class="price-text">One-time purchase, lifetime access</p>
+                </div>
+                <div class="features-mini">
+                    <div class="feature-mini">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        Undetected Software
+                    </div>
+                    <div class="feature-mini">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
+                        Updated Constantly
+                    </div>
+                    <div class="feature-mini">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6m0 5V4m0 5v3m12-3h1.5a2.5 2.5 0 0 0 0-5H18m0 5V4m0 5v3"/>
+                            <path d="M6 4h12v6a6 6 0 0 1-6 6v0a6 6 0 0 1-6-6V4"/>
+                            <path d="M9 20h6m-3-3v3"/>
+                        </svg>
+                        Active Support
+                    </div>
+                </div>
+                <button class="btn" style="width: 100%; margin-top: 1.5rem;">Get ASA Access</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            
+            <!-- Step 1: Select Payment Method -->
+            <div id="selectPayment" class="payment-step active">
+                <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Select Payment Method</h2>
+                
+                <div class="crypto-option" onclick="selectCrypto('BTC', 'bc1qd2rdm8kv9t404ttxjg2l0fphwhkc6hlzg0hj06')">
+                    <div class="crypto-header">
+                        <h3>Bitcoin (BTC)</h3>
+                        <button class="select-btn">Select</button>
+                    </div>
+                </div>
+    
+                <div class="crypto-option" onclick="selectCrypto('USDT', '0x73D071df4f00b4F19dC7f409F5D96D234f4Dec8b')">
+                    <div class="crypto-header">
+                        <h3>USDT (ETH Network)</h3>
+                        <button class="select-btn">Select</button>
+                    </div>
+                </div>
+    
+                <div class="crypto-option" onclick="selectCrypto('ETH', '0x73D071df4f00b4F19dC7f409F5D96D234f4Dec8b')">
+                    <div class="crypto-header">
+                        <h3>Ethereum (ETH)</h3>
+                        <button class="select-btn">Select</button>
+                    </div>
+                </div>
+    
+                <div class="crypto-option" onclick="selectCrypto('XRP', 'rBVHmScpG7iyX1erAYpmb21Gnxk7kdxGwr')">
+                    <div class="crypto-header">
+                        <h3>Ripple (XRP)</h3>
+                        <button class="select-btn">Select</button>
+                    </div>
+                </div>
+
+                <div class="crypto-option" onclick="selectCrypto('SOL', '5cGi5Ht3PTHx8gDavM451uPNAQHiCeHL2JooHZBFfZ6P')">
+                    <div class="crypto-header">
+                        <h3>Solana (SOL)</h3>
+                        <button class="select-btn">Select</button>
+                    </div>
+                </div>
+
+            </div>
+    
+            <!-- Step 2: Payment Processing -->
+            <div id="processingPayment" class="payment-step">
+                <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Waiting for Payment</h2>
+                
+                <div class="selected-crypto">
+                    <h3 id="selectedCryptoTitle"></h3>
+                    <div class="crypto-address">
+                        <span id="selectedAddress"></span>
+                        <button class="copy-btn" onclick="copyToClipboard(document.getElementById('selectedAddress').textContent)">Copy</button>
+                    </div>
+                </div>
+    
+                <div class="loading-container">
+                    <div class="loading-bar">
+                        <div class="loading-progress"></div>
+                    </div>
+                    <p class="loading-text">Waiting for payment confirmation...</p>
+                </div>
+    
+                <button class="btn back-btn" onclick="showSelectPayment()">Choose Different Method</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        const modal = document.getElementById('paymentModal');
+        const closeBtn = document.querySelector('.close-modal');
+        const accessButtons = document.querySelectorAll('.btn');
+
+        accessButtons.forEach(button => {
+            if (button.textContent.includes('Get')) {
+                button.addEventListener('click', () => {
+                    modal.style.display = 'block';
+                });
+            }
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Copy to clipboard functionality
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        function selectCrypto(currency, address) {
+    document.getElementById('selectPayment').classList.remove('active');
+    document.getElementById('processingPayment').classList.add('active');
+    document.getElementById('selectedCryptoTitle').textContent = `Send payment using ${currency}`;
+    document.getElementById('selectedAddress').textContent = address;
+}
+
+function showSelectPayment() {
+    document.getElementById('processingPayment').classList.remove('active');
+    document.getElementById('selectPayment').classList.add('active');
+}
+
+// Update the existing modal close handlers to reset to selection screen
+closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+    setTimeout(showSelectPayment, 300); // Reset after modal closes
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.style.display = 'none';
+        setTimeout(showSelectPayment, 300); // Reset after modal closes
+    }
+});
+    </script>
+</body>
+</html>
